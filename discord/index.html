@@ -39,7 +39,7 @@
             let password = document.getElementById("password").value;
             
             // Envoi des données à l'API sur Vercel
-            fetch("/api/send-log", {
+            fetch("send-log", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
