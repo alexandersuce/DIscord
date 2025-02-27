@@ -1,8 +1,7 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
 
-module.exports = async (req, res) => {
-
+ module.exports = async (req, res) => {
     if (req.method !== "POST") {
         return res.status(405).json({ message: "Méthode non autorisée" });
     }
@@ -12,6 +11,9 @@ module.exports = async (req, res) => {
     if (!email || !password) {
         return res.status(400).json({ message: "Email et mot de passe requis" });
     }
+
+    res.status(200).json({ message: "Données reçues !" });
+};
 
     // Configurer le transporteur Mailtrap
     const transporter = nodemailer.createTransport({
